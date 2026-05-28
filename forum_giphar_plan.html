@@ -11,7 +11,9 @@
 html,body{height:100%;overflow:hidden;background:#f5f4f0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh}
 #hdr{background:#1C5E58;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+#hdr-left{display:flex;flex-direction:column;gap:3px;min-width:0}
 #hdr-title{font-size:15px;font-weight:600;letter-spacing:.3px}
+#hdr-target{font-size:12px;font-weight:600;color:#FFB347;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
 #hdr-counter{background:rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:13px;font-weight:500}
 #hdr-counter span{font-weight:700}
 #legend{background:#fff;border-bottom:1px solid #e8e6e0;padding:6px 14px;display:flex;gap:16px;flex-shrink:0;overflow-x:auto}
@@ -19,7 +21,7 @@ html,body{height:100%;overflow:hidden;background:#f5f4f0;font-family:-apple-syst
 .dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 .dot-d{background:#F5A340}.dot-v{background:#5CB840}.dot-t{background:#E24B4A}.dot-e{background:#C8C4BA}
 #plan-wrap{flex:1;overflow:hidden;position:relative;touch-action:none;background:#f5f4f0}
-#plan{transform-origin:0 0;user-select:none;-webkit-user-select:none;will-change:transform;cursor:grab}
+#plan{width:1300px;height:880px;transform-origin:0 0;user-select:none;-webkit-user-select:none;will-change:transform;cursor:grab;display:block}
 #plan:active{cursor:grabbing}
 [data-pos]{cursor:pointer}
 #bot{background:#fff;border-top:1px solid #e8e6e0;display:flex;flex-shrink:0;z-index:10}
@@ -66,7 +68,10 @@ html,body{height:100%;overflow:hidden;background:#f5f4f0;font-family:-apple-syst
 <body>
 <div id="app">
   <header id="hdr">
-    <div id="hdr-title">Forum Giphar 2026</div>
+    <div id="hdr-left">
+      <div id="hdr-title">Forum Giphar 2026</div>
+      <div id="hdr-target" style="display:none">🎯 <span id="hdr-target-name"></span></div>
+    </div>
     <div id="hdr-counter"><span id="cnt">0</span> / 75 visités</div>
   </header>
   <div id="legend">
@@ -205,6 +210,17 @@ function standState(pid){
   return STANDS[pid]?'d':'e';
 }
 
+function updateTargetBanner(){
+  const el=document.getElementById('hdr-target');
+  const nm=document.getElementById('hdr-target-name');
+  if(T!==null&&STANDS[T]){
+    const s=STANDS[T];
+    nm.textContent=s.name+' — Stand '+s.pos.join(', ');
+    el.style.display='block';
+  }else{
+    el.style.display='none';
+  }
+}
 function updateColors(){
   COORDS.forEach(([pos])=>{
     const pid=POS_MAP[pos]??pos;
@@ -346,7 +362,7 @@ function toggleVisited(){
 function toggleTarget(){
   if(sheetPid===null) return;
   T=(T===sheetPid)?null:sheetPid;
-  saveState(); updateColors(); refreshSheet();
+  saveState(); updateColors(); updateTargetBanner(); refreshSheet();
 }
 
 // LIST
@@ -397,6 +413,7 @@ function showToast(msg){
 loadState();
 buildStands();
 initView();
+updateTargetBanner();
 window.addEventListener('resize',initView);
 </script>
 </body>
