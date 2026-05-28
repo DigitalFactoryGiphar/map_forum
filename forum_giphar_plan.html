@@ -16,9 +16,9 @@ html,body{height:100%;overflow:hidden;background:#f5f4f0;font-family:-apple-syst
 #hdr-target{font-size:12px;font-weight:600;color:#FFB347;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
 #hdr-counter{background:rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:13px;font-weight:500}
 #hdr-counter span{font-weight:700}
-#legend{background:#fff;border-bottom:1px solid #e8e6e0;padding:6px 14px;display:flex;gap:16px;flex-shrink:0;overflow-x:auto}
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#555;white-space:nowrap}
-.dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+#legend{background:#fff;border-bottom:1px solid #e8e6e0;padding:8px 16px;display:flex;gap:18px;flex-shrink:0;overflow-x:auto}
+.leg{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#444;white-space:nowrap}
+.dot{width:13px;height:13px;border-radius:3px;flex-shrink:0}
 .dot-d{background:#F5A340}.dot-v{background:#5CB840}.dot-t{background:#E24B4A}.dot-e{background:#C8C4BA}
 #plan-wrap{flex:1;overflow:hidden;position:relative;touch-action:none;background:#f5f4f0}
 #plan{width:1300px;height:880px;transform-origin:0 0;user-select:none;-webkit-user-select:none;will-change:transform;cursor:grab;display:block}
@@ -149,10 +149,6 @@ html,body{height:100%;overflow:hidden;background:#f5f4f0;font-family:-apple-syst
     <button class="bot-btn" onclick="openListSheet()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       Liste exposants
-    </button>
-    <button class="bot-btn" onclick="doShare()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-      Partager
     </button>
   </div>
 </div>
@@ -379,11 +375,11 @@ function filterList(q){
   document.getElementById('ls-items').innerHTML=items.map(([id,s])=>{
     const pid=Number(id);
     const iv=V.has(pid), it=T===pid;
-    const cls='li'+(it?' is-t':iv?' is-v':'');
+    const cls='li'+(it?' is-t':'');
     const img=s.logo
       ?'<img class="li-logo" src="'+s.logo+'" alt="'+s.name+'" loading="lazy"/>'
       :'<div class="li-init">'+s.name[0]+'</div>';
-    const badge=it?'<span class="li-badge">🎯</span>':iv?'<span class="li-badge" style="color:#3a8a28;font-size:18px;font-weight:700">✓</span>':'';
+    const badge=it?'<span class="li-badge">🎯</span>':'';
     return '<div class="'+cls+'" onclick="closeSheets();setTimeout(()=>openStandSheet('+s.pos[0]+'),200)">'+img+'<div class="li-info"><div class="li-name">'+s.name+'</div><div class="li-num">Stand '+s.pos.join(', ')+'</div></div>'+badge+'</div>';
   }).join('');
 }
